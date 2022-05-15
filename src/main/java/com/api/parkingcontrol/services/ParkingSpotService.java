@@ -5,6 +5,10 @@ import com.api.parkingcontrol.repositories.ParkingSpotRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,6 +24,9 @@ public class ParkingSpotService {
 
     @Transactional
     public ParkingSpotModel save(ParkingSpotModel parkingSpotModel) {
+        if (parkingSpotModel.getId() == null) {
+            parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
+        }
         return parkingSpotRepository.save(parkingSpotModel);
     }
 
